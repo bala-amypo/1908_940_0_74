@@ -1,4 +1,4 @@
-package com.example.aiml.entity;
+package com.example.demo.entity;
 
 import java.time.LocalDate;
 
