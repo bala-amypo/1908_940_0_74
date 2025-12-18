@@ -1,27 +1,47 @@
-package com.example.demo.entity;
+package com.example.aiml.entity;
 
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+//import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 @Entity
 //@Table(name="StudentTable")
 public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id ;
-    private String name;
-    private String email;
-    
-    
-    public void setId(Long id){
-        this.id=id;
 
-    }
-    public Long getId() {
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    
+
+    private int id;
+    @NotBlank(message="Name filed cannot be empty")
+    @Size(min=3,max=20,message="The user name must be min of 3 and max of 20 character")
+    private String name;
+    @Email(message="Invalid email Id")
+    @Column(unique=true)
+    private String email;
+   
+    
+    //@NotNull
+    //Size(min,max)
+    //@Min
+    //@Max
+    //@Pattern(reg)
+    
+    private LocalDate dob;
+    private float cgpa;
+    public int getId() {
         return id;
-        
+    }
+    public void setId(int id) {
+        this.id = id;
     }
     public String getName() {
         return name;
@@ -35,15 +55,27 @@ public class Student {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    public Student(Long id, String name, String email) {
+    public LocalDate getDob() {
+        return dob;
+    }
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
+    public float getCgpa() {
+        return cgpa;
+    }
+    public void setCgpa(float cgpa) {
+        this.cgpa = cgpa;
+    }
+    public Student(int id, String name, String email, LocalDate dob, float cgpa) {
         this.id = id;
         this.name = name;
         this.email = email;
-       
+        this.dob = dob;
+        this.cgpa = cgpa;
     }
     public Student() {
     }
-
+    
 
 }
