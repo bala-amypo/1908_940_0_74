@@ -28,4 +28,8 @@ public class StudentController {
     public Student getdata(@PathVariable Long id){
         return studentService.getStudentById(id);
     }
+    @PutMapping("/updatedata/{id}")
+    public Student updaStudent(@PathVariable Long id ,@Valid @RequesrBody Student student){
+        return studentService.updatedata(id,student);
+    }
 }
