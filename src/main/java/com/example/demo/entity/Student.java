@@ -12,7 +12,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-//@Table(name="StudentTable")
+//@setter
+//@getter
 public class Student {
 
     @Id
