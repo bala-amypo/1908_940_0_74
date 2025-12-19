@@ -32,4 +32,9 @@ public class StudentController {
     public Student updaStudent(@PathVariable Long id ,@Valid @RequesrBody Student student){
         return studentService.updatedata(id,student);
     }
+    @DeleteMapping("/deletedata/{id}")
+    public ResponseEntity<String> deletedata(@PathVariable Long id){
+        studentService.deletedata(id);
+        return ResponseEntity.ok("The student data deleted successfully");
+    }
 }
