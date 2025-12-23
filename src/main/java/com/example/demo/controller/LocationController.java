@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Location;
 import com.example.demo.service.LocationService;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,29 +14,28 @@ public class LocationController {
 
     private final LocationService locationService;
 
-    // Constructor Injection (BEST PRACTICE)
     public LocationController(LocationService locationService) {
         this.locationService = locationService;
     }
 
-    // ✅ Create Location
     @PostMapping
     public ResponseEntity<Location> createLocation(@RequestBody Location location) {
         Location savedLocation = locationService.saveLocation(location);
         return new ResponseEntity<>(savedLocation, HttpStatus.CREATED);
     }
 
-    // ✅ Get All Locations
     @GetMapping
     public ResponseEntity<List<Location>> getAllLocations() {
         List<Location> locations = locationService.getAllLocations();
         return ResponseEntity.ok(locations);
     }
 
-    // ✅ Get Location By ID
     @GetMapping("/{id}")
     public ResponseEntity<Location> getLocationById(@PathVariable Long id) {
         Location location = locationService.getLocationById(id);
+        if (location == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(location);
     }
 }

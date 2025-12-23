@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,12 +16,17 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public User register(@RequestBody User user) {
-        return userService.register(user);
+    public ResponseEntity<User> register(@RequestBody User user) {
+        User savedUser = userService.register(user);
+        return ResponseEntity.ok(savedUser);
     }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable Long id) {
-        return userService.findById(id);
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        User user = userService.findById(id);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(user);
     }
 }
