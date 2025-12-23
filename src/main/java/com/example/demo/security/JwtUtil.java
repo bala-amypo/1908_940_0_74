@@ -1,6 +1,9 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -12,9 +15,9 @@ public class JwtUtil {
     private final Key key;
     private final long expirationMs;
 
-    // Constructor injection for testability or @Value for production
     public JwtUtil(@Value("${jwt.secret}") String secret, 
                    @Value("${jwt.expiration}") long expirationMs) {
+        // Ensure secret is long enough or use Keys.secretKeyFor(SignatureAlgorithm.HS256) for auto-gen
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
         this.expirationMs = expirationMs;
     }
