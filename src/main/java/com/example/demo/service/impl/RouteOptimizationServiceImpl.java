@@ -9,40 +9,35 @@ import java.time.LocalDateTime;
 
 public class RouteOptimizationServiceImpl implements RouteOptimizationService {
 
-    private final ShipmentRepository shipmentRepository;
-    private final RouteOptimizationResultRepository resultRepository;
+    private final ShipmentRepository shipmentRepo;
+    private final RouteOptimizationResultRepository repo;
 
-    public RouteOptimizationServiceImpl(ShipmentRepository sRepo, RouteOptimizationResultRepository rRepo) {
-        this.shipmentRepository = sRepo;
-        this.resultRepository = rRepo;
+    public RouteOptimizationServiceImpl(ShipmentRepository s, RouteOptimizationResultRepository r) {
+        this.shipmentRepo = s;
+        this.repo = r;
     }
 
-    @Override
     public RouteOptimizationResult optimizeRoute(Long shipmentId) {
-        Shipment shipment = shipmentRepository.findById(shipmentId)
+        Shipment s = shipmentRepo.findById(shipmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Shipment not found"));
 
-        double distance = Math.sqrt(
-                Math.pow(shipment.getPickupLocation().getLatitude() -
-                        shipment.getDropLocation().getLatitude(), 2)
-                        +
-                        Math.pow(shipment.getPickupLocation().getLongitude() -
-                                shipment.getDropLocation().getLongitude(), 2)
+        double distance = Math.hypot(
+                s.getPickupLocation().getLatitude() - s.getDropLocation().getLatitude(),
+                s.getPickupLocation().getLongitude() - s.getDropLocation().getLongitude()
         );
 
-        RouteOptimizationResult result = RouteOptimizationResult.builder()
-                .shipment(shipment)
+        RouteOptimizationResult r = RouteOptimizationResult.builder()
+                .shipment(s)
                 .optimizedDistanceKm(distance)
-                .estimatedFuelUsageL(distance / shipment.getVehicle().getFuelEfficiency())
+                .estimatedFuelUsageL(distance / s.getVehicle().getFuelEfficiency())
                 .generatedAt(LocalDateTime.now())
                 .build();
 
-        return resultRepository.save(result);
+        return repo.save(r);
     }
 
-    @Override
     public RouteOptimizationResult getResult(Long id) {
-        return resultRepository.findById(id)
+        return repo.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Result not found"));
     }
 }

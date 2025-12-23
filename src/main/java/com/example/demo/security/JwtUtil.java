@@ -9,11 +9,11 @@ import java.util.Date;
 public class JwtUtil {
 
     private final Key key;
-    private final long expiration;
+    private final long expirationMs;
 
-    public JwtUtil(String secret, long expiration) {
+    public JwtUtil(String secret, long exp) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
-        this.expiration = expiration;
+        this.expirationMs = exp;
     }
 
     public String generateToken(Long userId, String email, String role) {
@@ -21,7 +21,8 @@ public class JwtUtil {
                 .claim("userId", userId)
                 .claim("email", email)
                 .claim("role", role)
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
                 .signWith(key)
                 .compact();
     }
