@@ -11,8 +11,8 @@ public class RouteOptimizationResult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String routeName;          // Name of the optimized route
-    private double totalDistance;      // Total distance of the route
+    private String routeName;
+    private double totalDistance;
 
     @ManyToMany
     @JoinTable(
@@ -20,18 +20,16 @@ public class RouteOptimizationResult {
         joinColumns = @JoinColumn(name = "result_id"),
         inverseJoinColumns = @JoinColumn(name = "shipment_id")
     )
-    private List<com.example.demo.entity.Shipment> shipments;  // Shipments in this route
+    private List<Shipment> shipments;
 
-    // Constructors
     public RouteOptimizationResult() {}
 
-    public RouteOptimizationResult(String routeName, double totalDistance, List<com.example.demo.entity.Shipment> shipments) {
+    public RouteOptimizationResult(String routeName, double totalDistance, List<Shipment> shipments) {
         this.routeName = routeName;
         this.totalDistance = totalDistance;
         this.shipments = shipments;
     }
 
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -41,6 +39,6 @@ public class RouteOptimizationResult {
     public double getTotalDistance() { return totalDistance; }
     public void setTotalDistance(double totalDistance) { this.totalDistance = totalDistance; }
 
-    public List<com.example.demo.entity.Shipment> getShipments() { return shipments; }
-    public void setShipments(List<com.example.demo.entity.Shipment> shipments) { this.shipments = shipments; }
+    public List<Shipment> getShipments() { return shipments; }
+    public void setShipments(List<Shipment> shipments) { this.shipments = shipments; }
 }
