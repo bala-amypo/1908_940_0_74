@@ -1,9 +1,9 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.RouteOptimizationResult;
-import java.util.Optional;
+import com.example.demo.entity.RouteOptimization;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface RouteOptimizationResultRepository {
-    Optional<RouteOptimizationResult> findById(Long id);
-    RouteOptimizationResult save(RouteOptimizationResult result);
+@Repository
+public interface RouteOptimizationRepository extends JpaRepository<RouteOptimization, Long> {
 }

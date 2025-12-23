@@ -1,11 +1,13 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.Shipment;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ShipmentRepository {
-    Optional<Shipment> findById(Long id);
-    List<Shipment> findByVehicleId(Long vehicleId);
-    Shipment save(Shipment shipment);
+import java.util.List;
+
+@Repository
+public interface ShipmentRepository extends JpaRepository<Shipment, Long> {
+    List<Shipment> findByStatus(String status);  // find shipments by status
+    List<Shipment> findByAssignedVehicleId(Long vehicleId); // shipments assigned to a vehicle
 }

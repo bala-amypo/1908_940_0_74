@@ -1,12 +1,10 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.Vehicle;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface VehicleRepository {
-    Optional<Vehicle> findById(Long id);
-    Optional<Vehicle> findByVehicleNumber(String vehicleNumber);
-    List<Vehicle> findByUserId(Long userId);
-    Vehicle save(Vehicle vehicle);
+@Repository
+public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
+    Vehicle findByVehicleNumber(String vehicleNumber); // find vehicle by number
 }
