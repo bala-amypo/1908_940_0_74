@@ -1,35 +1,46 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
+import java.util.List;
 
-import java.time.LocalDateTime;
-
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
+@Table(name = "route_optimization_results")
 public class RouteOptimizationResult {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "shipment_id", nullable = false)
-    private Shipment shipment;
+    private String routeName;          // Name of the optimized route
+    private double totalDistance;      // Total distance of the route
 
-    @NotNull
-    @Min(0)
-    private Double optimizedDistanceKm;
+    @ManyToMany
+    @JoinTable(
+        name = "result_shipments",
+        joinColumns = @JoinColumn(name = "result_id"),
+        inverseJoinColumns = @JoinColumn(name = "shipment_id")
+    )
+    private List<com.example.demo.entity.Shipment> shipments;  // Shipments in this route
 
-    @NotNull
-    @Min(0)
-    private Double estimatedFuelUsageL;
+    // Constructors
+    public RouteOptimizationResult() {}
 
-    @NotNull
-    private LocalDateTime generatedAt;
+    public RouteOptimizationResult(String routeName, double totalDistance, List<com.example.demo.entity.Shipment> shipments) {
+        this.routeName = routeName;
+        this.totalDistance = totalDistance;
+        this.shipments = shipments;
+    }
+
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getRouteName() { return routeName; }
+    public void setRouteName(String routeName) { this.routeName = routeName; }
+
+    public double getTotalDistance() { return totalDistance; }
+    public void setTotalDistance(double totalDistance) { this.totalDistance = totalDistance; }
+
+    public List<com.example.demo.entity.Shipment> getShipments() { return shipments; }
+    public void setShipments(List<com.example.demo.entity.Shipment> shipments) { this.shipments = shipments; }
 }
