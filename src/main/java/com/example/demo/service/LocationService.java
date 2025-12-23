@@ -4,6 +4,8 @@ import com.example.demo.entity.Location;
 import java.util.List;
 
 public interface LocationService {
-    Location createLocation(Location l);
+    Location saveLocation(Location l); // match controller
+    Location getLocationById(Long id); // add if missing
     List<Location> getAllLocations();
 }
+
