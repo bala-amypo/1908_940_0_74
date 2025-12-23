@@ -1,12 +1,10 @@
 package com.example.demo.repository;
 
-import java.util.Optional;
+import com.example.demo.entity.*;
+import java.util.*;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.example.demo.entity.User;
-
-public interface UserRepository extends JpaRepository<User, Long> {
-
+public interface UserRepository {
+    Optional<User> findById(Long id);
     Optional<User> findByEmail(String email);
+    User save(User user);
 }
