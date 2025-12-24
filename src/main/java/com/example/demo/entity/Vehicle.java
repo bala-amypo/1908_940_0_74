@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,5 +22,7 @@ public class Vehicle {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @ToString.Exclude       // Prevents infinite loop in logs
+    @JsonIgnore             // Prevents infinite loop in API responses (optional, but recommended)
     private User user;
 }
