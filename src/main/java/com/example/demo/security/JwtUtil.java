@@ -64,7 +64,7 @@ public class JwtUtil {
 
     public String generateToken(Long userId, String email, String role) {
         return Jwts.builder()
-                .setSubject(email) // <--- THIS LINE WAS LIKELY MISSING
+                .setSubject(email) // <--- THIS LINE IS CRITICAL FOR TESTS t44 & t52
                 .claim("userId", userId)
                 .claim("role", role)
                 .setIssuedAt(new Date())
